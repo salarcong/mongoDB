@@ -118,6 +118,11 @@ db.usuario.aggregate(
                 foreignField: '_id',
                 as: 'puesto'
             }
+        },
+        {
+            $match: {
+                'puesto.puesto': /Marketing/i    //i -> Encontrar mayusculas y minusculas  
+            }
         }
     ]
 ).pretty()
