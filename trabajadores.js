@@ -108,3 +108,16 @@ db.puesto.aggregate(
         }
     ]
 ).pretty()
+
+db.puesto.aggregate(
+    [
+        {
+            $lookup: {
+                from: 'usuario',
+                localField: '_id',
+                foreignField: 'puestoId',
+                as: 'usuario'
+            }
+        }
+    ]
+).pretty()
