@@ -109,14 +109,14 @@ db.puesto.aggregate(
     ]
 ).pretty()
 
-db.puesto.aggregate(
+db.usuario.aggregate(
     [
         {
             $lookup: {
-                from: 'usuario',
-                localField: '_id',
-                foreignField: 'puestoId',
-                as: 'usuario'
+                from: 'puesto',
+                localField: 'puestoId',
+                foreignField: '_id',
+                as: 'puesto'
             }
         }
     ]
