@@ -1,5 +1,17 @@
 db.users.updateOne(
    {
+      name: 'Aldo'
+   },
+   {
+      $set: {
+         courses: ['MongoDB', 'SQL', 'Java', 'Rails', 'Rust']
+      }
+   }
+)
+
+
+db.users.updateOne(
+   {
       name: 'Esteban'
    },
    {
@@ -43,5 +55,31 @@ db.users.updateMany(
    }
 )
 
+//$slice -> position o index
 
+db.users.findOne(
+   {
+      name: 'Aldo'
+   },
+   {
+      _id: false,
+      name: true,
+      courses: {
+         $slice: -1
+      }
+   }
+)
+
+db.users.findOne(
+   {
+      name: 'Aldo'
+   },
+   {
+      _id: false,
+      name: true,
+      courses: {
+         $slice: [0, 3]
+      }
+   }
+)
 
