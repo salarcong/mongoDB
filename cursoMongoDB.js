@@ -1,10 +1,10 @@
 db.users.updateOne(
    {
-      name: 'Aldo'
+      name: 'Luis'
    },
    {
       $set: {
-         courses: ['MongoDB', 'SQL', 'Java', 'Rails', 'Rust']
+         courses: ['Git', 'Escritura para programadores', 'Redes']
       }
    }
 )
@@ -65,7 +65,7 @@ db.users.findOne(
       _id: false,
       name: true,
       courses: {
-         $slice: -1
+         $slice: 3
       }
    }
 )
@@ -82,4 +82,73 @@ db.users.findOne(
       }
    }
 )
+
+//Obtener todos los usuarios con 5 cursos
+db.users.find(
+   {
+      courses: {
+         $size: 3
+      }
+   }
+)
+
+//$where
+//Obtener todos los usuarios que posean por lo menos 3 cursos
+db.users.find(
+   {
+      $and: [
+         {
+            courses: {$exists: true}
+         },
+         {
+            $where: 'this.courses.length >= 3'
+         }
+      ]
+   }
+)
+
+
+db.users.updateOne(
+   {
+      name: 'Sebastian'
+   },
+   {
+      $set: {
+         address: {
+            state: 'Guatemala',
+            city: 'Guatemala',
+            number: 10,
+            street: 'Calle numero 1',
+            postalCode: 1111,
+            references:['Casa color azul','a un costado de una tienda']
+         }
+      }
+   }
+)
+
+
+//obtener todos los usuarios que posean una direccion postal
+db.users.find(
+   {
+      address: {$exists: true}
+   }
+)
+
+//Obtener todos los usuarios que posean un codigo postal 1111
+db.users.find(
+   {
+      $and:[
+         {
+            'address.postalCode': 1112
+         },
+         {
+            'address.number': 10
+         }
+      ]
+   }
+)
+
+
+
+//Obtener la primera referencia de los usuarios con codigo postal y referencias
 
