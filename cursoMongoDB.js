@@ -126,6 +126,21 @@ db.users.updateOne(
    }
 )
 
+db.users.updateOne(
+   {
+      name: 'Marco'
+   },
+   {
+      $set: {
+         address: {
+            state: 'Puebla',
+            city: 'Puebla',
+            postalCode: 1112,
+         }
+      }
+   }
+)
+
 
 //obtener todos los usuarios que posean una direccion postal
 db.users.find(
@@ -139,7 +154,7 @@ db.users.find(
    {
       $and:[
          {
-            'address.postalCode': 1112
+            'address.postalCode': 1111
          },
          {
             'address.number': 10
@@ -151,4 +166,109 @@ db.users.find(
 
 
 //Obtener la primera referencia de los usuarios con codigo postal y referencias
+
+
+
+
+
+db.users.updateMany(
+   {
+      courses: {$exists: true}
+   },
+   {
+      $unset: {
+         courses: true
+      }
+   }
+)
+
+db.users.updateOne(
+   {
+      name: 'Luis'
+   },
+   {
+      $set: {
+         courses: [
+            {
+               title: 'Vue',
+               progress: 50,
+               completed: false
+            },
+            {
+               title: 'Docker',
+               progress: 50,
+               completed: false
+            }
+         ]
+      }
+   }
+)
+
+
+//$elemMatch
+//Obtener todos los usuarios que hayan completado por lo menos un curso
+db.users.find(
+   {
+      courses: {
+         $elemMatch: {
+            completed: true
+         }
+      }
+   }
+)
+
+//Obtener todos los usuarios con un progreso de sus cursos mayor a 80
+db.users.find(
+   {
+      courses: {
+         $elemMatch: {
+            progress: {$gte: 80}
+         }
+      }
+   }
+)
+
+
+//Obtener el nombre del usuario junto con el titulo de cada uno de sus cursos
+db.users.find(
+   {
+      courses: {$exists: true}
+   },
+   {
+      _id: false,
+      name: true,
+      'courses.title': true
+   }
+).pretty()
+
+
+db.users.updateOne(
+   {
+      name: 'Luis',
+      'courses.title': 'Docker'
+   },
+   {
+      $set: {
+         'courses.$.progress': 100,
+         'courses.$.completed': true, 
+         'courses.$.tutor': {
+            'name': 'Cody'
+         }
+      }
+   }
+)
+
+
+db.users.updateOne(
+   {
+      name: 'Luis',
+      'courses.title': 'Docker'
+   },
+   {
+      $set: {
+         'courses.$.tutor.name': 'CodigoFacilito'
+      }
+   }
+)
+
 
